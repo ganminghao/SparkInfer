@@ -1,0 +1,25 @@
+default:
+  cffn: 1
+  ctx_size: 768
+  max_tokens: 512
+  n_prompts: 10
+  ngl: 999
+  no_mmap: 1
+  prompt_file: prompts.txt
+  spif:
+    dfr_ema: 1
+    dx_dfr_decay: ''
+    init_dfr_decay: ''
+    parallel: 1
+    reload: 1
+    reload_window_size: 4
+    reorder: 1
+    split_debug: ''
+  threads: 12
+  vram_budget: 0
+opt-13b:
+  model: /root/models/opt-13b.gguf
+  model_split: /root/models/opt-13b-sparkinfer-model-split-1024.gguf
+relufalcon-40b:
+  model: /root/models/relufalcon-40b-q8_0.gguf
+  model_split: /root/models/ReluFalcon-40B-sparkinfer-model-split-1024.gguf
