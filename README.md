@@ -3,9 +3,8 @@
 Fastest local LLM inference by activation sparsity
 
 ## Demo Video
-<video width="640" height="360" controls>
-    <source src="figures/demo.mp4" type="video/mp4">
-</video>
+https://private-user-images.githubusercontent.com/156072106/538753529-58e49e15-4544-4fa1-a691-1b5bf61a6cda.mp4?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NjkwMjU1NDAsIm5iZiI6MTc2OTAyNTI0MCwicGF0aCI6Ii8xNTYwNzIxMDYvNTM4NzUzNTI5LTU4ZTQ5ZTE1LTQ1NDQtNGZhMS1hNjkxLTFiNWJmNjFhNmNkYS5tcDQ_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjYwMTIxJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI2MDEyMVQxOTU0MDBaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT03NTM3OTQ4NmZiMTRmMzdlNGQ5Nzc4MjBjNGUzYzJlMGM0ZDkxYWIwZTJlOGNjMjhmNWFjYWM1Y2ZhYTAxZmFhJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.SEpkkW4x7cJU1VV2WEmTj1z8CeUDh2GlcyrBp3t2Agw
+
 SparkInfer v.s. PowerInfer on a single RTX 4090(24GB) running ProSparse-Llama-2-13B FP16(26GB) with 2 times speedup!
 
 ## Abstract
