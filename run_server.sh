@@ -30,4 +30,4 @@ opts=(
     -c "$ctx_size"
 )
 
-./build/bin/llama-server -m "$model" "${opts[@]}" --port "$port"
+./build_rel/bin/llama-server -m "$model" "${opts[@]}" --port "$port"

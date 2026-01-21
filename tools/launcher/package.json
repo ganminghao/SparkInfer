@@ -1,0 +1,15 @@
+{
+  "name": "sparkinfer-launcher",
+  "version": "1.0.0",
+  "description": "Web launcher for SparkInfer",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "open": "^8.4.2"
+  },
+  "type": "module"
+}

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>SparkInfer 启动器</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <style>
+        /* 增加 select 的样式 */
+        select { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; background: white; }
+        /* 其他样式保持不变 */
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f4f4f9; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .card { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 400px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; color: #333; }
+        input { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+        button { width: 100%; padding: 10px; background-color: #42b983; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; margin-top: 10px; }
+        button:hover { background-color: #3aa876; }
+        button:disabled { background-color: #ccc; cursor: not-allowed; }
+        .status { margin-top: 15px; text-align: center; color: #666; font-size: 0.9em; }
+        .logo { text-align: center; margin-bottom: 20px; font-size: 24px; font-weight: bold; color: #2c3e50; }
+    </style>
+</head>
+<body>
+    <div id="app" class="card">
+        <div class="logo">🚀 SparkInfer Launcher</div>
+        
+        <div class="form-group">
+            <label>主模型 (Model)</label>
+            <select v-model="form.model">
+                <option value="" disabled>请选择模型文件 (.gguf)</option>
+                <option v-for="file in files" :key="file" :value="file">{{ file }}</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>分片文件 (Model Split)</label>
+            <select v-model="form.model_split">
+                <option value="" disabled>请选择分片文件 (.gguf)</option>
+                <option v-for="file in files" :key="file" :value="file">{{ file }}</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>显存预算 (VRAM Budget)</label>
+            <input v-model.number="form.vram_budget" type="number">
+        </div>
+
+        <div class="form-group">
+            <label>线程数 (Threads)</label>
+            <input v-model.number="form.threads" type="number">
+        </div>
+
+        <button @click="launchServer" :disabled="loading">
+            {{ loading ? '启动中...' : '启动推理服务' }}
+        </button>
+
+        <div class="status" v-if="message">{{ message }}</div>
+    </div>
+
+    <script>
+        const { createApp, reactive, ref, onMounted } = Vue;
+
+        createApp({
+            setup() {
+                const loading = ref(false);
+                const message = ref('');
+                const files = ref([]); // 存储文件列表
+
+                const form = reactive({
+                    model: '', 
+                    model_split: '',
+                    vram_budget: 6,
+                    threads: 12
+                });
+
+                // 组件挂载时获取文件列表
+                onMounted(async () => {
+                    try {
+                        const res = await fetch('/api/files');
+                        const data = await res.json();
+                        files.value = data.files || [];
+                        
+                        // 简单的自动匹配逻辑（可选）
+                        // 如果有文件包含 "split"，自动选为 split
+                        const splitFile = files.value.find(f => f.includes('split'));
+                        if (splitFile) form.model_split = splitFile;
+                        
+                        // 选第一个不是 split 的做 main model
+                        const mainFile = files.value.find(f => !f.includes('split'));
+                        if (mainFile) form.model = mainFile;
+
+                    } catch (e) {
+                        message.value = '无法获取模型文件列表';
+                    }
+                });
+
+                const launchServer = async () => {
+                    loading.value = true;
+                    message.value = '正在启动...';
+                    try {
+                        const res = await fetch('/start-server', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(form)
+                        });
+                        const data = await res.json();
+                        if (res.ok) {
+                            message.value = '启动成功，跳转中...';
+                            setTimeout(() => window.location.href = data.targetUrl, 2000);
+                        } else {
+                            message.value = '错误: ' + data.message;
+                            loading.value = false;
+                        }
+                    } catch (err) {
+                        message.value = '请求失败';
+                        loading.value = false;
+                    }
+                };
+
+                return { form, launchServer, loading, message, files };
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>
