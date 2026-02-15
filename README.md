@@ -13,9 +13,9 @@ We present SparkInfer, an adaptive GPU–CPU hybrid inference system that addres
 
 ## Models Weights
 ### Supported Models
-// TODO
+// Will be released in the future
 ### Download Models
-// TODO
+// Coming soon
 
 
 
@@ -50,4 +50,4 @@ We evaluated SparkInfer against llama.cpp, PowerInfer, and Neuralink on two PC c
 More details could be find in our paper.
 
 ## Paper and Citation
-// TODO
+// Coming soon (Under submission of OSDI'26)
